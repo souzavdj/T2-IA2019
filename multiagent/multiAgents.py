@@ -333,8 +333,14 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
   """
     Your minimax agent with alpha-beta pruning (question 3)
   """
-  
-  #def minValue(self, gameState, agentIndex, depth, alpha, beta):
+
+  def getAction(self, gameState):
+    """
+      Returns the minimax action using self.depth and self.evaluationFunction
+    """
+    "*** YOUR CODE HERE ***"
+    
+    #def minValue(self, gameState, agentIndex, depth, alpha, beta):
 
   #      v = {'value':float('inf'), 'action':Directions.STOP}
 
@@ -359,19 +365,14 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
   #          beta = min(beta, v['value'])
 
   #      return v
-
-  def getAction(self, gameState):
-    """
-      Returns the minimax action using self.depth and self.evaluationFunction
-    """
-    "*** YOUR CODE HERE ***"
+    
     util.raiseNotDefined()
 
 class ExpectimaxAgent(MultiAgentSearchAgent):
   """
     Your expectimax agent (question 4)
   """
-
+  
   def getAction(self, gameState):
     """
       Returns the expectimax action using self.depth and self.evaluationFunction
@@ -380,6 +381,29 @@ class ExpectimaxAgent(MultiAgentSearchAgent):
       legal moves.
     """
     "*** YOUR CODE HERE ***"
+    
+    #def maxValue(self, gameState, agentIndex, depth):
+
+    #    v = {'value': float('-inf'), 'action': Directions.STOP}
+
+    #    legalMoves = gameState.getLegalActions(agentIndex)        
+
+    #    for action in legalMoves:
+
+    #        if action == Directions.STOP: continue
+
+    #        successorGameState = gameState.generateSuccessor(agentIndex, action) 
+
+    #        successorExpectiMax = self.expectimax(successorGameState, agentIndex+1, depth, action)
+
+    #        if v['value'] <= successorExpectiMax['value']:
+
+    #            v['value'] = successorExpectiMax['value']
+
+    #            v['action'] = action
+
+    #    return v
+    
     util.raiseNotDefined()
 
 def betterEvaluationFunction(currentGameState):
