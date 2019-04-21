@@ -406,6 +406,7 @@ class ExpectimaxAgent(MultiAgentSearchAgent):
             p = 1 / float(len(legalMoves))
             v['value'] += p * successorExpectiMax['value']
         return v
+        
 def betterEvaluationFunction(currentGameState):
     """
 
@@ -418,61 +419,61 @@ def betterEvaluationFunction(currentGameState):
       DESCRIPTION: <write something here so we know what you did>
 
     """
+
+    # prioriza o estado que leva a vitoria
+
+    if currentGameState.isWin():
+        return float("+inf")
+
+    # estado de derrota corresponde a pior avaliacao
+
+    if currentGameState.isLose():
+        return float("-inf")
+
+    # variaveis a serem usadas na calculo da funcao de avaliacao
+
+    score = scoreEvaluationFunction(currentGameState)
+
+    newFoodList = currentGameState.getFood().asList()
+
+    newPos = currentGameState.getPacmanPosition()
+
     #
-    # # prioriza o estado que leva a vitoria
+
+    # ATENCAO: variaveis nao usadas AINDA!
+
+    # Procure modificar essa funcao para usar essas variaveis e melhorar a funcao de avaliacao.
+
+    # Descreva em seu relatorio de que forma essas variaveis foram usadas.
+
     #
-    # if currentGameState.isWin():
-    #     return float("+inf")
-    #
-    # # estado de derrota corresponde a pior avaliacao
-    #
-    # if currentGameState.isLose():
-    #     return float("-inf")
-    #
-    # # variaveis a serem usadas na calculo da funcao de avaliacao
-    #
-    # score = scoreEvaluationFunction(currentGameState)
-    #
-    # newFoodList = currentGameState.getFood().asList()
-    #
-    # newPos = currentGameState.getPacmanPosition()
-    #
-    # #
-    #
-    # # ATENCAO: variaveis nao usadas AINDA!
-    #
-    # # Procure modificar essa funcao para usar essas variaveis e melhorar a funcao de avaliacao.
-    #
-    # # Descreva em seu relatorio de que forma essas variaveis foram usadas.
-    #
-    # #
-    #
-    # ghostStates = currentGameState.getGhostStates()
-    #
-    # scaredTimes = [ghostState.scaredTimer for ghostState in ghostStates]
-    #
-    # # calcula distancia entre o agente e a pilula mais proxima
-    #
-    # minDistanceFood = float("+inf")
-    #
-    # for foodPos in newFoodList:
-    #     minDistanceFood = min(minDistanceFood, util.manhattanDistance(foodPos, newPos))
-    #
-    # # incentiva o agente a se aproximar mais da pilula mais proxima
-    #
-    # score -= 2 * minDistanceFood
-    #
-    # # incentiva o agente a comer pilulas
-    #
-    # score -= 4 * len(newFoodList)
-    #
-    # # incentiva o agente a se mover para proximo das capsulas
-    #
-    # capsulelocations = currentGameState.getCapsules()
-    #
-    # score -= 4 * len(capsulelocations)
-    #
-    # return score
+
+    ghostStates = currentGameState.getGhostStates()
+
+    scaredTimes = [ghostState.scaredTimer for ghostState in ghostStates]
+
+    # calcula distancia entre o agente e a pilula mais proxima
+
+    minDistanceFood = float("+inf")
+
+    for foodPos in newFoodList:
+        minDistanceFood = min(minDistanceFood, util.manhattanDistance(foodPos, newPos))
+
+    # incentiva o agente a se aproximar mais da pilula mais proxima
+
+    score -= 2 * minDistanceFood
+
+    # incentiva o agente a comer pilulas
+
+    score -= 4 * len(newFoodList)
+
+    # incentiva o agente a se mover para proximo das capsulas
+
+    capsulelocations = currentGameState.getCapsules()
+
+    score -= 4 * len(capsulelocations)
+
+    return score
 
 # Abbreviation
 better = betterEvaluationFunction
