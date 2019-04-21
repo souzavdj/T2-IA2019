@@ -363,46 +363,73 @@ class ExpectimaxAgent(MultiAgentSearchAgent):
           All ghosts should be modeled as choosing uniformly at random from their
           legal moves.
         """
-        "*** YOUR CODE HERE ***"
+        expectimax = self.expectimax(gameState, agentIndex=0, depth=self.depth)
 
-    # def maxValue(self, gameState, agentIndex, depth):
-    #
-    #     v = {'value': float('-inf'), 'action': Directions.STOP}
-    #     legalMoves = gameState.getLegalActions(agentIndex)
-    #     for action in legalMoves:
-    #         if action == Directions.STOP: continue
-    #         successorGameState = gameState.generateSuccessor(agentIndex, action)
-    #         successorExpectiMax = self.expectimax(successorGameState, agentIndex + 1, depth, action)
-    #         if v['value'] <= successorExpectiMax['value']:
-    #             v['value'] = successorExpectiMax['value']
-    #             v['action'] = action
-    #     return v
+        return expectimax['action']
 
+    def expectimax(self, gameState, agentIndex=0, depth='2', action=Directions.STOP):
+        agentIndex = agentIndex % gameState.getNumAgents()
 
+        if agentIndex == 0: depth = depth - 1
+
+        if gameState.isWin() or gameState.isLose() or depth == -1:
+
+            return {'value': self.evaluationFunction(gameState), 'action': action}
+
+        else:
+            if agentIndex == 0:
+                return self.maxValue(gameState, agentIndex, depth)
+
+            else:
+                return self.expValue(gameState, agentIndex, depth)
+
+    def maxValue(self, gameState, agentIndex, depth):
+        v = {'value': float('-inf'), 'action': Directions.STOP}
+        legalMoves = gameState.getLegalActions(agentIndex)
+        for action in legalMoves:
+            if action == Directions.STOP: continue
+            successorGameState = gameState.generateSuccessor(agentIndex, action)
+            successorExpectiMax = self.expectimax(successorGameState, agentIndex + 1, depth, action)
+            if v['value'] <= successorExpectiMax['value']:
+                v['value'] = successorExpectiMax['value']
+                v['action'] = action
+        return v
+
+    def expValue(self, gameState, agentIndex, depth):
+        v = {'value': 0, 'action': Directions.STOP}
+        legalMoves = gameState.getLegalActions(agentIndex)
+        for action in legalMoves:
+            if action == Directions.STOP: continue
+          
+            successorGameState = gameState.generateSuccessor(agentIndex, action)
+            successorExpectiMax = self.expectimax(successorGameState, agentIndex + 1, depth, action)
+            p = 1 / float(len(legalMoves))
+            v['value'] += p * successorExpectiMax['value']
+        return v
 def betterEvaluationFunction(currentGameState):
-    # """
+    """
+
+      Your extreme ghost-hunting, pellet-nabbing, food-gobbling, unstoppable
+
+      evaluation function (question 5).
+
+
+
+      DESCRIPTION: <write something here so we know what you did>
+
+    """
     #
-    #   Your extreme ghost-hunting, pellet-nabbing, food-gobbling, unstoppable
-    #
-    #   evaluation function (question 5).
-    #
-    #
-    #
-    #   DESCRIPTION: <write something here so we know what you did>
-    #
-    # """
-    #
-    # # prioriza o estado que leva à vitória
+    # # prioriza o estado que leva a vitoria
     #
     # if currentGameState.isWin():
     #     return float("+inf")
     #
-    # # estado de derrota corresponde à pior avaliação
+    # # estado de derrota corresponde a pior avaliacao
     #
     # if currentGameState.isLose():
     #     return float("-inf")
     #
-    # # variáveis a serem usadas na cálculo da função de avaliação
+    # # variaveis a serem usadas na calculo da funcao de avaliacao
     #
     # score = scoreEvaluationFunction(currentGameState)
     #
@@ -412,11 +439,11 @@ def betterEvaluationFunction(currentGameState):
     #
     # #
     #
-    # # ATENÇÃO: variáveis não usadas AINDA!
+    # # ATENCAO: variaveis nao usadas AINDA!
     #
-    # # Procure modificar essa função para usar essas variáveis e melhorar a função de avaliação.
+    # # Procure modificar essa funcao para usar essas variaveis e melhorar a funcao de avaliacao.
     #
-    # # Descreva em seu relatório de que forma essas variáveis foram usadas.
+    # # Descreva em seu relatorio de que forma essas variaveis foram usadas.
     #
     # #
     #
@@ -424,29 +451,28 @@ def betterEvaluationFunction(currentGameState):
     #
     # scaredTimes = [ghostState.scaredTimer for ghostState in ghostStates]
     #
-    # # calcula distância entre o agente e a pílula mais próxima
+    # # calcula distancia entre o agente e a pilula mais proxima
     #
     # minDistanceFood = float("+inf")
     #
     # for foodPos in newFoodList:
     #     minDistanceFood = min(minDistanceFood, util.manhattanDistance(foodPos, newPos))
     #
-    # # incentiva o agente a se aproximar mais da pílula mais próxima
+    # # incentiva o agente a se aproximar mais da pilula mais proxima
     #
     # score -= 2 * minDistanceFood
     #
-    # # incentiva o agente a comer pílulas
+    # # incentiva o agente a comer pilulas
     #
     # score -= 4 * len(newFoodList)
     #
-    # # incentiva o agente a se mover para príximo das cápsulas
+    # # incentiva o agente a se mover para proximo das capsulas
     #
     # capsulelocations = currentGameState.getCapsules()
-    # 
+    #
     # score -= 4 * len(capsulelocations)
     #
     # return score
-
 
 # Abbreviation
 better = betterEvaluationFunction
